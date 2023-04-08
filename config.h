@@ -19,18 +19,7 @@ static int smartgaps          = 0;        /* 1 means no outer gap when there is 
 static int showbar            = 0;        /* 0 means no bar */
 static int topbar             = 0;        /* 0 means bottom bar */
 static char *fonts[]          = { "monospace:size=10", "JoyPixels:pixelsize=10:antialias=true:autohint=true" };
-/* static char normbgcolor[]           = "#222222"; */
-/* static char normbordercolor[]       = "#444444"; */
-/* static char normfgcolor[]           = "#bbbbbb"; */
-/* static char selfgcolor[]            = "#eeeeee"; */
-/* static char selbordercolor[]        = "#770000"; */
-/* static char selbgcolor[]            = "#005577"; */
-/* #include "/home/amaryllis/.cache/wal/colors-wal-dwm.h" */
-/* static char *colors[][3] = { */
-        /*               fg           bg           border   */
-/* [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor }, */
-/* [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  }, */
-/* }; */
+
 
 typedef struct {
 	const char *name;
@@ -178,14 +167,7 @@ static const Key keys[] = {
 	TAGKEYS(			XK_9,		8)
 	{ MODKEY,			XK_0,		view,		{.ui = ~0 } },
 	{ MODKEY|ShiftMask,		XK_0,		tag,		{.ui = ~0 } },
-	/* { MODKEY,			XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -44 $(pidof dwmblocks)") }, */
-	/* { MODKEY|ShiftMask,		XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 15; kill -44 $(pidof dwmblocks)") }, */
-	/* { MODKEY,			XK_equal,	spawn,		SHCMD("pamixer --allow-boost -i 5; kill -44 $(pidof dwmblocks)") }, */
-	/* { MODKEY|ShiftMask,		XK_equal,	spawn,		SHCMD("pamixer --allow-boost -i 15; kill -44 $(pidof dwmblocks)") }, */
-	/* { MODKEY,			XK_BackSpace,	spawn,		SHCMD("sysact") }, */
-	/* { MODKEY|ShiftMask,		XK_BackSpace,	spawn,		SHCMD("sysact") }, */
-
-		{ MODKEY,			XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -44 $(pidof dwmblocks)") },
+	{ MODKEY,			XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY|ShiftMask,		XK_minus,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY,			XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY|ShiftMask,		XK_equal,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -44 $(pidof dwmblocks)") },
@@ -195,8 +177,6 @@ static const Key keys[] = {
 	/* { MODKEY|ShiftMask,		XK_Tab,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_q,		killclient,	{0} },
 	/* { MODKEY|ShiftMask,		XK_q,		spawn,		SHCMD("sysact") }, */
-	/* { MODKEY,			XK_w,		spawn,		SHCMD("$BROWSER") }, */
-	/* { MODKEY|ShiftMask,		XK_w,		spawn,		SHCMD(TERMINAL " -e sudo nmtui") }, */
 	{ MODKEY|ShiftMask,		XK_q,		spawn,		{.v = (const char*[]){ "sysact", NULL } } },
 	{ MODKEY,			XK_w,		spawn,		{.v = (const char*[]){ BROWSER, NULL } } },
 	{ MODKEY|ShiftMask,		XK_w,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "sudo", "nmtui", NULL } } },
@@ -284,8 +264,6 @@ static const Key keys[] = {
 	{ MODKEY,			XK_F8,		spawn,		{.v = (const char*[]){ "mbsync -c ~/.config/mbsync/config -a", NULL } } },
 	{ MODKEY,			XK_F9,		spawn,		{.v = (const char*[]){ "mounter", NULL } } },
 	{ MODKEY|ShiftMask,			XK_F9,		spawn,		{.v = (const char*[]){ "unmounter", NULL } } },
-	/* { MODKEY,			XK_F9,		spawn,		SHCMD("dmenumount") }, */
-	/* { MODKEY|ShiftMask,		XK_F9,		spawn,		SHCMD("dmenuumount") }, */
 	{ MODKEY,			XK_F10,		spawn,		SHCMD("gitpull") },
 	{ MODKEY|ShiftMask,		XK_F10,		spawn,		SHCMD("gitpush") },
 	{ MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --profile=low-latency --input-conf=/dev/null --title=webcam av://v4l2:/dev/video0") },

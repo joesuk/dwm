@@ -28,7 +28,7 @@ dwm draws a small border around windows to indicate the focus state.
 .SH OPTIONS
 .TP
 .B \-v
-prints version information to standard output, then exits.
+prints version information to stderr, then exits.
 .SH USAGE
 .SS Status bar
 .TP
@@ -59,6 +59,14 @@ Start terminal,
 Spawn
 .BR dmenu(1)
 for launching other programs.
+.TP
+.B Super\-grave
+Spawn
+.BR dmenuunicode(1)
+for selecting emoji.
+.TP
+.B Super\-minus/plus, Super\-Shift\-minus/plus
+Decrease/increase volume by 5 and 15 respectively.
 .TP
 .B Super\-b
 Toggles bar on and off.

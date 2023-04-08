@@ -71,26 +71,12 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum {SchemeNorm,
-  SchemeSel,
-  SchemeTitle,
-  SchemeTag,
-  SchemeTag1,
-  SchemeTag2,
-  SchemeTag3,
-  SchemeTag4,
-  SchemeTag5,
-  SchemeLayout,
-  TabSel,
-  TabNorm,
-  SchemeBtnPrev,
-  SchemeBtnNext,
-  SchemeBtnClose}; /* color schemes */
+enum { SchemeNorm, SchemeSel }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { ClkTagBar, ClkLtSymbol, ClkStatusText,
+enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
 typedef union {
@@ -293,7 +279,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
-/* static void load_xresources(void);*/
+static void load_xresources(void);
 static void resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst);
 
 static pid_t getparentprocess(pid_t p);
@@ -604,7 +590,7 @@ buttonpress(XEvent *e)
 				}
 			}
 		} else
-			click = ClkStatusText;
+			click = ClkWinTitle;
 	} else if ((c = wintoclient(ev->window))) {
 		focus(c);
 		restack(selmon);
@@ -911,14 +897,15 @@ drawbar(Monitor *m)
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
 	if ((w = m->ww - tw - x) > bh) {
-		/*if (m->sel) {
+		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
 			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
-		} else {*/
+		} else {
 			drw_setscheme(drw, scheme[SchemeNorm]);
 			drw_rect(drw, x, 0, w, bh, 1, 1);
+		}
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 }
@@ -1455,11 +1442,11 @@ propertynotify(XEvent *e)
 			drawbars();
 			break;
 		}
-		if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName])
+		if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName]) {
 			updatetitle(c);
-			/*if (c == c->mon->sel)
+			if (c == c->mon->sel)
 				drawbar(c->mon);
-		}*/
+		}
 		if (ev->atom == netatom[NetWMWindowType])
 			updatewindowtype(c);
 	}
@@ -2592,24 +2579,24 @@ resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst)
 	}
 }
 
-/* void*/
-/*load_xresources(void)*/
-/*{*/
-	/*Display *display;*/
-	/*char *resm;*/
-	/*XrmDatabase db;*/
-	/*ResourcePref *p;*/
-/**/
-	/*display = XOpenDisplay(NULL);*/
-	/*resm = XResourceManagerString(display);*/
-	/*if (!resm)*/
-		/*return;*/
-/**/
-	/*db = XrmGetStringDatabase(resm);*/
-	/*for (p = resources; p < resources + LENGTH(resources); p++)*/
-		/*resource_load(db, p->name, p->type, p->dst);*/
-	/*XCloseDisplay(display);*/
-/*}*/
+void
+load_xresources(void)
+{
+	Display *display;
+	char *resm;
+	XrmDatabase db;
+	ResourcePref *p;
+
+	display = XOpenDisplay(NULL);
+	resm = XResourceManagerString(display);
+	if (!resm)
+		return;
+
+	db = XrmGetStringDatabase(resm);
+	for (p = resources; p < resources + LENGTH(resources); p++)
+		resource_load(db, p->name, p->type, p->dst);
+	XCloseDisplay(display);
+}
 
 int
 main(int argc, char *argv[])
@@ -2626,7 +2613,7 @@ main(int argc, char *argv[])
 		die("dwm: cannot get xcb connection\n");
 	checkotherwm();
 	XrmInitialize();
-	/*load_xresources();*/
+	load_xresources();
 	setup();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
