@@ -1,4 +1,4 @@
-# Joe's build of dwm
+# my build of dwm
 
 Fork of [LukeSmithxyz dwm](https://github.com/lukesmithxyz/dwm).
 
