@@ -18,7 +18,7 @@ static int swallowfloating    = 0;        /* 1 means swallow floating windows by
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 0;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static char *fonts[]          = { "monospace:size=10", "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true" };
+static char *fonts[]          = { "monospace:pixelsize=24", "NotoColorEmoji:pixelsize=24:antialias=true:autohint=true"}; /* joypixels is  the emoji font*/
 
 
 typedef struct {
@@ -26,7 +26,7 @@ typedef struct {
 	const void *cmd;
 } Sp;
 const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
+const char *spcmd2[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=12", "-g", "50x20", "-e", "bc", "-lq", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
@@ -35,7 +35,8 @@ static Sp scratchpads[] = {
 
 /* tagging */
 static const char *tags[] = { "\u96f6", "\u767e", "\u5343", "\u842c", "\u5341\u842C", "\u767e\u842c", "\u5343\u842c", "\u5104", "\u5146" };
-/* static const char *tags[] = { "一", "二", "三", "四", "五", "六", "七", "八", "九" }; */
+/*static const char *tags[] = { "\u96f6", "\u767e", "\u5343", "\u842c", "\u5341\u842C", "\u767e\u842c", "\u5343\u842c", "\u5104", "\u5146" };*/
+/*static const char *tags[] = { "一", "二", "三", "四", "五", "六", "七", "八", "九" };*/
 
 static const Rule rules[] = {
 	/* xprop(1):
