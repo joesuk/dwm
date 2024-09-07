@@ -17,8 +17,8 @@ static unsigned int gappov    = 0;       /* vert outer gap between windows and s
 static int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 0;        /* 0 means no bar */
-static int topbar             = 1;        /* 0 means bottom bar */
-static char *fonts[]          = { "monospace:pixelsize=24", "NotoColorEmoji:pixelsize=24:antialias=true:autohint=true"}; /* joypixels is  the emoji font*/
+static int topbar             = 0;        /* 0 means bottom bar */
+static char *fonts[]          = { "monospace:pixelsize=16", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true"}; /* joypixels is  the emoji font*/
 
 
 typedef struct {
@@ -128,7 +128,7 @@ static const char *termcmd[]  = { TERMINAL, NULL };
 // theme
 #include "themes/catppuccin.h"
 
-static const char *colors[][3]      = {
+static char *colors[][3]      = {
     /*                     fg       bg      border */
     [SchemeNorm]       = { red,   black,  gray2 },
     [SchemeSel]        = { purple,   blue,   blue  },
