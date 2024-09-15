@@ -3,7 +3,7 @@
 /* Constants */
 #define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "firefox"
+#define BROWSER "librewolf"
 
 #define SESSION_FILE "/tmp/dwm-session"
 
@@ -26,7 +26,7 @@ typedef struct {
 	const void *cmd;
 } Sp;
 const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=12", "-g", "50x20", "-e", "bc", "-lq", NULL };
+const char *spcmd2[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
@@ -44,13 +44,13 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	*/
 	/* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
-	{ "Gimp",     NULL,       NULL,       	    1 << 8,       0,           0,         0,        -1 },
-	{ TERMCLASS,  NULL,       NULL,       	    0,            0,           1,         0,        -1 },
-	{ NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
-	{ TERMCLASS,      "floatterm", NULL,       	    0,       1,           1,         0,        -1 },
-	{ TERMCLASS,      "bg",        NULL,       	    1 << 7,       0,           1,         0,        -1 },
-	{ TERMCLASS,      "spterm",    NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
-	{ TERMCLASS,      "spcalc",    NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
+	{ "Gimp",     NULL,       NULL,          1 << 8,      0,           0,          0,         -1 },
+	{ TERMCLASS,  NULL,       NULL,       	 0,           0,           1,          0,         -1 },
+	{ NULL,       NULL,       "Event Tester", 0,          0,           0,          1,         -1 },
+	{ TERMCLASS,  "floatterm", NULL,       	 0,           1,           1,          0,         -1 },
+	{ TERMCLASS,  "bg",        NULL,       	 1 << 7,      0,           1,          0,         -1 },
+	{ TERMCLASS,  "spterm",    NULL,       	 SPTAG(0),    1,           1,          0,         -1 },
+	{ TERMCLASS,  "spcalc",    NULL,       	 SPTAG(1),    1,           1,          0,         -1 },
 };
 
 /* layout(s) */
@@ -62,19 +62,19 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 #include "vanitygaps.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",	tile },			/* Default: Master on left, slaves on right */
-	{ "TTT",	bstack },		/* Master on top, slaves on bottom */
+	{ "[]=",	tile },	                /* Default: Master on left, slaves on right */
+	{ "TTT",	bstack },               /* Master on top, slaves on bottom */
 
-	{ "[@]",	spiral },		/* Fibonacci spiral */
-	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
+	{ "[@]",	spiral },               /* Fibonacci spiral */
+	{ "[\\]",	dwindle },              /* Decreasing in size right and leftward */
 
-	{ "[D]",	deck },			/* Master on left, slaves in monocle-like mode on right */
-	{ "[M]",	monocle },		/* All windows on top of eachother */
+	{ "[D]",	deck },	                /* Master on left, slaves in monocle-like mode on right */
+	{ "[M]",	monocle },              /* All windows on top of eachother */
 
-	{ "|M|",	centeredmaster },		/* Master in middle, slaves on sides */
-	{ ">M>",	centeredfloatingmaster },	/* Same but master floats */
+	{ "|M|",	centeredmaster },               /* Master in middle, slaves on sides */
+	{ ">M>",	centeredfloatingmaster },       /* Same but master floats */
 
-	{ "><>",	NULL },			/* no layout function means floating behavior */
+	{ "><>",	NULL },	                /* no layout function means floating behavior */
 	{ NULL,		NULL },
 };
 
@@ -122,7 +122,7 @@ static const char *termcmd[]  = { TERMINAL, NULL };
 		/* { "gappoh",		INTEGER, &gappoh }, */
 		/* { "gappov",		INTEGER, &gappov }, */
 		/* { "swallowfloating",	INTEGER, &swallowfloating }, */
-		/* { "smar16gaps",		INTEGER, &smartgaps }, */
+		/* { "smartgaps",		INTEGER, &smartgaps }, */
 /* }; */
 
 // theme
