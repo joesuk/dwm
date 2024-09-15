@@ -1977,19 +1977,19 @@ showhide(Client *c)
 	}
 }
 
-/*void*/
-/*sighup(int unused)*/
-/*{*/
-	/*Arg a = {.i = 1};*/
-	/*quit(&a);*/
-/*}*/
+void
+sighup(int unused)
+{
+	Arg a = {.i = 1};
+	quit(&a);
+}
 
-/*void*/
-/*sigterm(int unused)*/
-/*{*/
-	/*Arg a = {.i = 0};*/
-	/*quit(&a);*/
-/*}*/
+void
+sigterm(int unused)
+{
+	Arg a = {.i = 0};
+	quit(&a);
+}
 
 #ifndef __OpenBSD__
 void
