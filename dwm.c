@@ -297,7 +297,6 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 static void xrdb(const Arg *arg);
-/* static void load_xresources(void);*/
 static void resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst);
 
 static pid_t getparentprocess(pid_t p);
@@ -2646,17 +2645,7 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
-/*void*/
-/*xrdb(const Arg *arg)*/
-/*{*/
-    /*load_xresources();*/
-/**/
-    /*for (int i = 0; i < LENGTH(colors); i++)*/
-        /*scheme[i] = drw_scm_create(drw, colors[i], 3);*/
-/**/
-    /*focus(NULL);*/
-    /*arrange(NULL);*/
-/*}*/
+
 
 void
 resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst)
@@ -2693,24 +2682,7 @@ resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst)
 	}
 }
 
-/*void*/
-/*load_xresources(void)*/
-/*{*/
-	/*Display *display;*/
-	/*char *resm;*/
-	/*XrmDatabase db;*/
-	/*ResourcePref *p;*/
-/**/
-	/*display = XOpenDisplay(NULL);*/
-	/*resm = XResourceManagerString(display);*/
-	/*if (!resm)*/
-		/*return;*/
-/**/
-	/*db = XrmGetStringDatabase(resm);*/
-	/*for (p = resources; p < resources + LENGTH(resources); p++)*/
-		/*resource_load(db, p->name, p->type, p->dst);*/
-	/*XCloseDisplay(display);*/
-/*}*/
+
 
 int
 main(int argc, char *argv[])
@@ -2727,7 +2699,6 @@ main(int argc, char *argv[])
 		die("dwm: cannot get xcb connection\n");
 	checkotherwm();
 	XrmInitialize();
-	/*load_xresources();*/
 	setup();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
