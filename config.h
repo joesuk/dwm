@@ -3,7 +3,7 @@
 /* Constants */
 #define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "firefox"
+#define BROWSER "librewolf"
 
 #define SESSION_FILE "/tmp/dwm-session"
 
@@ -35,6 +35,8 @@ static Sp scratchpads[] = {
 
 /* tagging */
 static const char *tags[] = { "\u96f6", "\u767e", "\u5343", "\u842c", "\u5341\u842C", "\u767e\u842c", "\u5343\u842c", "\u5104", "\u5146" };
+/*static const char *tags[] = { "\u96f6", "\u767e", "\u5343", "\u842c", "\u5341\u842C", "\u767e\u842c", "\u5343\u842c", "\u5104", "\u5146" };*/
+/*static const char *tags[] = { "一", "二", "三", "四", "五", "六", "七", "八", "九" };*/
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -98,6 +100,31 @@ static const Layout layouts[] = {
 /* commands */
 static const char *termcmd[]  = { TERMINAL, NULL };
 
+/*
+ * Xresources preferences to load at startup
+ */
+/* ResourcePref resources[] = { */
+		/* { "color0",		STRING,	&normbordercolor }, */
+		/* { "color6",		STRING,	&selbordercolor }, */
+		/* { "color0",		STRING,	&normbgcolor }, */
+		/* { "color4",		STRING,	&normfgcolor }, */
+		/* { "color0",		STRING,	&selfgcolor }, */
+		/* { "color4",		STRING,	&selbgcolor }, */
+		/* { "borderpx",		INTEGER, &borderpx }, */
+		/* { "snap",		INTEGER, &snap }, */
+		/* { "showbar",		INTEGER, &showbar }, */
+		/* { "topbar",		INTEGER, &topbar }, */
+		/* { "nmaster",		INTEGER, &nmaster }, */
+		/* { "resizehints",	INTEGER, &resizehints }, */
+		/* { "mfact",		FLOAT,	&mfact }, */
+		/* { "gappih",		INTEGER, &gappih }, */
+		/* { "gappiv",		INTEGER, &gappiv }, */
+		/* { "gappoh",		INTEGER, &gappoh }, */
+		/* { "gappov",		INTEGER, &gappov }, */
+		/* { "swallowfloating",	INTEGER, &swallowfloating }, */
+		/* { "smartgaps",		INTEGER, &smartgaps }, */
+/* }; */
+
 // theme
 #include "themes/catppuccin.h"
 
@@ -150,7 +177,6 @@ static const Key keys[] = {
 	{ MODKEY,			XK_Tab,		view,		{0} },
 	/* { MODKEY|ShiftMask,		XK_Tab,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_q,		killclient,	{0} },
-	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} },
 	/* { MODKEY|ShiftMask,		XK_q,		spawn,		SHCMD("sysact") }, */
 	{ MODKEY|ShiftMask,		XK_q,		spawn,		{.v = (const char*[]){ "sysact", NULL } } },
 	{ MODKEY,			XK_w,		spawn,		{.v = (const char*[]){ BROWSER, NULL } } },
@@ -327,4 +353,3 @@ static const Button buttons[] = {
 	{ ClkTagBar,		0,		Button5,	shiftview,	{.i = 1} },
 	{ ClkRootWin,		0,		Button2,	togglebar,	{0} },
 };
-
