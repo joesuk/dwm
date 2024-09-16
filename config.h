@@ -150,6 +150,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_Tab,		view,		{0} },
 	/* { MODKEY|ShiftMask,		XK_Tab,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_q,		killclient,	{0} },
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} },
 	/* { MODKEY|ShiftMask,		XK_q,		spawn,		SHCMD("sysact") }, */
 	{ MODKEY|ShiftMask,		XK_q,		spawn,		{.v = (const char*[]){ "sysact", NULL } } },
 	{ MODKEY,			XK_w,		spawn,		{.v = (const char*[]){ BROWSER, NULL } } },
