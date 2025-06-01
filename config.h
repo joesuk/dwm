@@ -18,7 +18,7 @@ static int swallowfloating    = 0;        /* 1 means swallow floating windows by
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 0;        /* 0 means no bar */
 static int topbar             = 0;        /* 0 means bottom bar */
-static char *fonts[]          = { "monospace:pixelsize=16", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true"}; /* joypixels is  the emoji font*/
+static char *fonts[]          = { "monospace:pixelsize=24", "NotoColorEmoji:pixelsize=24:antialias=true:autohint=true"}; /* joypixels is  the emoji font*/
 
 
 typedef struct {
@@ -128,7 +128,7 @@ static const Key keys[] = {
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
 	/* { MODKEY|ShiftMask,		XK_Escape,	spawn,	SHCMD("") }, */
-	{ MODKEY,			XK_grave,	spawn,	{.v = (const char*[]){ "dmenuunicode", NULL } } },
+	{ MODKEY,			XK_grave,	spawn,	{.v = (const char*[]){ "dmenuunicode", "emoji",  NULL } } },
 	/* { MODKEY|ShiftMask,		XK_grave,	togglescratch,	SHCMD("") }, */
 	TAGKEYS(			XK_1,		0)
 	TAGKEYS(			XK_2,		1)
@@ -242,7 +242,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_F10,		spawn,		SHCMD("gitpush") },
 	{ MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --profile=low-latency --input-conf=/dev/null --title=webcam av://v4l2:/dev/video0") },
 	{ MODKEY,			XK_F12,		spawn,		SHCMD("remaps") },
-	{ MODKEY|ShiftMask,			XK_F12,		spawn,		SHCMD("toggleaudio") },
+	{ MODKEY|ShiftMask,			XK_F12,		spawn,		SHCMD("benq.sh") },
 	{ MODKEY,			XK_space,	zoom,		{0} },
 	{ MODKEY|ShiftMask,		XK_space,	togglefloating,	{0} },
 
@@ -279,8 +279,8 @@ static const Key keys[] = {
 	{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
 	 { 0, XF86XK_TouchpadOff,	spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=1", NULL } } },
 	{ 0, XF86XK_TouchpadOn,		spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=0", NULL } } },
-	{ 0, XF86XK_MonBrightnessUp,	spawn,		{.v = (const char*[]){ "xbacklight", "-inc", "15", NULL } } },
-	{ 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "-dec", "15", NULL } } },
+	{ 0, XF86XK_MonBrightnessUp,	spawn,		{.v = (const char*[]){ "xbacklight", "-inc", "5", NULL } } },
+	{ 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "-dec", "5", NULL } } },
 	/* { MODKEY|Mod4Mask,              XK_h,      incrgaps,       {.i = +1 } }, */
 	/* { MODKEY|Mod4Mask,              XK_l,      incrgaps,       {.i = -1 } }, */
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_h,      incrogaps,      {.i = +1 } }, */
