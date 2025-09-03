@@ -241,6 +241,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_F10,		spawn,		SHCMD("gitpull") },
 	{ MODKEY|ShiftMask,		XK_F10,		spawn,		SHCMD("gitpush") },
 	{ MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --profile=low-latency --input-conf=/dev/null --title=webcam av://v4l2:/dev/video0") },
+	{ MODKEY|ShiftMask,			XK_F11,		spawn,		SHCMD("reset_connman") },
 	{ MODKEY,			XK_F12,		spawn,		SHCMD("remaps") },
 	{ MODKEY|ShiftMask,			XK_F12,		spawn,		SHCMD("benq.sh") },
 	{ MODKEY,			XK_space,	zoom,		{0} },
