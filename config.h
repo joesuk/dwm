@@ -99,27 +99,29 @@ static const Layout layouts[] = {
 static const char *termcmd[]  = { TERMINAL, NULL };
 
 // theme
-#include "themes/catppuccin.h"
+#include "themes/xp.h"
 
+static const char col_font1[]       = "#eeeeee";
+static const char col_font2[]       = "#ffffff";
+static const char col_tags1[]       = "#40a843";
+static const char col_tags2[]       = "#87b48a";
+static const char col_info1[]       = "#2460de";
+static const char col_info2[]       = "#3a7ef4";
+static const char col_status[]       = "#0e9bef";
+static const char col_border1[]       = "#444444";
+static const char col_border2[]       = "#33CCFF";
 static char *colors[][3]      = {
-    /*                     fg       bg      border */
-    [SchemeNorm]       = { red,   black,  gray2 },
-    [SchemeSel]        = { purple,   blue,   blue  },
-    [SchemeTitle]      = { white,   black,  black  }, // active window title
-    [TabSel]           = { blue,    gray2,  black },
-    [TabNorm]          = { gray3,   black,  black },
-    [SchemeTag]        = { gray3,   black,  black },
-    [SchemeTag1]       = { blue,    black,  black },
-    [SchemeTag2]       = { red,     black,  black },
-    [SchemeTag3]       = { orange,  black,  black },
-    [SchemeTag4]       = { green,   black,  black },
-    [SchemeTag5]       = { pink,    black,  black },
-    [SchemeLayout]     = { green,   black,  black },
-    [SchemeBtnPrev]    = { green,   black,  black },
-    [SchemeBtnNext]    = { yellow,  black,  black },
-    [SchemeBtnClose]   = { red,     black,  black },
+    /*                     fg          bg          border */
+    [SchemeNorm]       = { col_font1,  col_info1,  col_border1 }, // unfocused window, dark blue bar
+    [SchemeSel]        = { col_font2,  col_tags1,  col_border2 }, // focused window, green highlight
+    [SchemeTitle]      = { col_font2,  col_tags1,  col_border2 }, // active window title, green highlight
+    [TabSel]           = { col_font2,  col_tags1,  col_border2 }, // selected tab, green highlight
+    [TabNorm]          = { col_font1,  col_info1,  col_border1 }, // normal tab, dark blue
+    [SchemeLayout]     = { col_font2,  col_info1,  col_border2 }, // layout indicator, dark blue
+    [SchemeBtnPrev]    = { col_tags1,  col_info1,  col_border1 }, // prev button (green text)
+    [SchemeBtnNext]    = { col_tags2,  col_info1,  col_border1 }, // next button (muted green text)
+    [SchemeBtnClose]   = { red,        col_info1,  col_border1 }, // close button (red text)
 };
-
 #include <X11/XF86keysym.h>
 #include "shiftview.c"
 
