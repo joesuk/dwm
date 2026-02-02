@@ -112,15 +112,26 @@ static const char col_border1[]       = "#444444";
 static const char col_border2[]       = "#33CCFF";
 static char *colors[][3]      = {
     /*                     fg          bg          border */
-    [SchemeNorm]       = { col_font1,  col_info1,  col_border1 }, // unfocused window, dark blue bar
-    [SchemeSel]        = { col_font2,  col_tags1,  col_border2 }, // focused window, green highlight
-    [SchemeTitle]      = { col_font2,  col_tags1,  col_border2 }, // active window title, green highlight
-    [TabSel]           = { col_font2,  col_tags1,  col_border2 }, // selected tab, green highlight
-    [TabNorm]          = { col_font1,  col_info1,  col_border1 }, // normal tab, dark blue
-    [SchemeLayout]     = { col_font2,  col_info1,  col_border2 }, // layout indicator, dark blue
-    [SchemeBtnPrev]    = { col_tags1,  col_info1,  col_border1 }, // prev button (green text)
-    [SchemeBtnNext]    = { col_tags2,  col_info1,  col_border1 }, // next button (muted green text)
-    [SchemeBtnClose]   = { red,        col_info1,  col_border1 }, // close button (red text)
+    [SchemeNorm]       = { col_font1,  col_info1,  col_border1 },
+    [SchemeSel]        = { col_font2,  col_tags1,  col_border2 },
+    [SchemeTitle]      = { col_font2,  col_tags1,  col_border2 },
+    [SchemeTag]        = { col_font1,  col_tags1,  col_border1 },
+    [SchemeTag1]       = { col_font1,  col_tags1,  col_border1 },
+    [SchemeTag2]       = { col_font1,  col_tags1,  col_border1 },
+    [SchemeTag3]       = { col_font1,  col_tags1,  col_border1 },
+    [SchemeTag4]       = { col_font1,  col_tags1,  col_border1 },
+    [SchemeTag5]       = { col_font1,  col_tags1,  col_border1 },
+    [SchemeLayout]     = { col_font2,  col_info1,  col_border2 },
+    [TabSel]           = { col_font2,  col_tags1,  col_border2 },
+    [TabNorm]          = { col_font1,  col_info1,  col_border1 },
+    [SchemeBtnPrev]    = { col_tags1,  col_info1,  col_border1 },
+    [SchemeBtnNext]    = { col_tags2,  col_info1,  col_border1 },
+    [SchemeBtnClose]   = { red,        col_info1,  col_border1 },
+    [SchemeStatus]     = { col_font1,  col_info1,  "#000000" },
+    [SchemeTagsSel]    = { col_font2,  col_tags2,  "#000000" },
+    [SchemeTagsNorm]   = { col_font1,  col_tags1,  "#000000" },
+    [SchemeInfoSel]    = { col_font2,  col_tags1,  "#000000" },
+    [SchemeInfoNorm]   = { col_font1,  col_info1,  "#000000" },
 };
 #include <X11/XF86keysym.h>
 #include "shiftview.c"
