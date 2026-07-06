@@ -127,7 +127,7 @@ static char *colors[][3]      = {
     [SchemeBtnPrev]    = { col_tags1,  col_info1,  col_border1 },
     [SchemeBtnNext]    = { col_tags2,  col_info1,  col_border1 },
     [SchemeBtnClose]   = { red,        col_info1,  col_border1 },
-    [SchemeStatus]     = { col_font1,  col_info1,  "#000000" },
+    [SchemeStatus]     = { col_font1,  col_info2,  "#000000" },
     [SchemeTagsSel]    = { col_font2,  col_tags2,  "#000000" },
     [SchemeTagsNorm]   = { col_font1,  col_tags1,  "#000000" },
     [SchemeInfoSel]    = { col_font2,  col_tags1,  "#000000" },
@@ -255,8 +255,9 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_F10,		spawn,		SHCMD("gitpush") },
 	{ MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --profile=low-latency --input-conf=/dev/null --title=webcam av://v4l2:/dev/video0") },
 	{ MODKEY|ShiftMask,			XK_F11,		spawn,		SHCMD("reset_connman") },
-	{ MODKEY,			XK_F12,		spawn,		SHCMD("remaps") },
-	{ MODKEY|ShiftMask,			XK_F12,		spawn,		SHCMD("benq.sh") },
+	/*{ MODKEY,			XK_F12,		spawn,		SHCMD("remaps") },*/
+	{ MODKEY,			XK_F12,		spawn,		{.v = (const char*[]){"sh", "-c", "remaps 2>/tmp/remaps.log", NULL } } },
+	{ MODKEY|ShiftMask,			XK_F12,		spawn,		SHCMD("samsung.sh") },
 	{ MODKEY,			XK_space,	zoom,		{0} },
 	{ MODKEY|ShiftMask,		XK_space,	togglefloating,	{0} },
 
