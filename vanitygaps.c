@@ -14,6 +14,7 @@ static void togglesmartgaps(const Arg *arg);
 static void bstack(Monitor *m);
 static void centeredmaster(Monitor *m);
 static void centeredfloatingmaster(Monitor *m);
+static void columns(Monitor *m);
 static void deck(Monitor *m);
 static void dwindle(Monitor *m);
 static void fibonacci(Monitor *m, int s);
@@ -548,4 +549,40 @@ tile(Monitor *m)
 			resize(c, sx, sy, sw - (2*c->bw), (sh / sfacts) + ((i - m->nmaster) < srest ? 1 : 0) - (2*c->bw), 0);
 			sy += HEIGHT(c) + ih;
 		}
+}
+
+/*
+ * Columns layout + gaps
+ * All clients side by side at full height, no master area
+ */
+void
+columns(Monitor *m)
+{
+	unsigned int i, n;
+	int x, y, h, w, prev, edge;
+	float facts, acc;
+	Client *c;
+
+	int oh, ov, ih, iv;
+	getgaps(m, &oh, &ov, &ih, &iv, &n);
+
+	if (n == 0)
+		return;
+
+	x = m->wx + ov;
+	y = m->wy + oh;
+	h = m->wh - 2*oh;
+	w = m->ww - 2*ov - iv * (n - 1);
+
+	for (facts = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next))
+		facts += c->cfact;
+
+	/* walk exact cumulative edges, so widths stay proportional to cfact
+	 * without rounding drift or a leftover gap at the right edge */
+	for (i = 0, acc = 0, prev = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+		acc += c->cfact;
+		edge = (int)(w * acc / facts + 0.5);
+		resize(c, x + prev + i * iv, y, edge - prev - (2*c->bw), h - (2*c->bw), 0);
+		prev = edge;
+	}
 }

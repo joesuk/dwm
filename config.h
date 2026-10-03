@@ -73,6 +73,8 @@ static const Layout layouts[] = {
 	{ "|M|",	centeredmaster },               /* Master in middle, slaves on sides */
 	{ ">M>",	centeredfloatingmaster },       /* Same but master floats */
 
+	{ "|||",	columns },              /* Equal-width full-height columns, no master */
+
 	{ "><>",	NULL },	                /* no layout function means floating behavior */
 	{ NULL,		NULL },
 };
@@ -180,6 +182,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_u,		setlayout,	{.v = &layouts[5]} }, /* monocle */
 	{ MODKEY,			XK_i,		setlayout,	{.v = &layouts[6]} }, /* centeredmaster */
 	{ MODKEY|ShiftMask,		XK_i,		setlayout,	{.v = &layouts[7]} }, /* centeredfloatingmaster */
+	{ MODKEY,			XK_o,		setlayout,	{.v = &layouts[8]} }, /* columns */
+	{ MODKEY|ShiftMask,		XK_o,		setcfact,	{.f =  0.00} }, /* reset column width */
 	/*{ MODKEY,			XK_o,		incnmaster,     {.i = +1 } },*/
 	/*{ MODKEY|ShiftMask,		XK_o,		incnmaster,     {.i = -1 } },*/
 	{ MODKEY,			XK_p,			spawn,		{.v = (const char*[]){ "mpc", "toggle", NULL } } },
@@ -198,12 +202,12 @@ static const Key keys[] = {
 	{ MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run", NULL } } },
 	{ MODKEY|ShiftMask,		XK_d,		spawn,		{.v = (const char*[]){ "rofi-locate", NULL } } },
 	{ MODKEY,			XK_f,		togglefullscr,	{0} },
-	{ MODKEY|ShiftMask,		XK_f,		setlayout,	{.v = &layouts[8]} },
+	{ MODKEY|ShiftMask,		XK_f,		setlayout,	{.v = &layouts[9]} }, /* floating */
 	{ MODKEY,			XK_g,		shiftview,	{ .i = -1 } },
 	{ MODKEY|ShiftMask,		XK_g,		shifttag,	{ .i = -1 } },
-	{ MODKEY,			XK_h,		setmfact,	{.f = -0.05} },
+	{ MODKEY,			XK_h,		setfact,	{.f = -0.05} }, /* cfact in |||, else mfact */
 	/* J and K are automatically bound above in STACKEYS */
-	{ MODKEY,			XK_l,		setmfact,      	{.f = +0.05} },
+	{ MODKEY,			XK_l,		setfact,       	{.f = +0.05} },
 	{ MODKEY|ControlMask,		XK_h,		setlfact,	{.f = -0.05} },
 	{ MODKEY|ControlMask,		XK_l,		setlfact,	{.f = +0.05} },
 	{ MODKEY,			XK_semicolon,	shiftview,	{ .i = 1 } },
