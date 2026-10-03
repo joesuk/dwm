@@ -260,7 +260,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_F11,		spawn,		SHCMD("reset_connman") },
 	/*{ MODKEY,			XK_F12,		spawn,		SHCMD("remaps") },*/
 	{ MODKEY,			XK_F12,		spawn,		{.v = (const char*[]){"sh", "-c", "remaps 2>/tmp/remaps.log", NULL } } },
-	{ MODKEY|ShiftMask,			XK_F12,		spawn,		SHCMD("samsung.sh") },
+	{ MODKEY|ShiftMask,			XK_F12,		spawn,		SHCMD("monitor_toggle.sh") },
 	{ MODKEY,			XK_space,	zoom,		{0} },
 	{ MODKEY|ShiftMask,		XK_space,	togglefloating,	{0} },
 
