@@ -120,6 +120,7 @@ typedef struct Client Client;
 struct Client {
 	char name[256];
 	float mina, maxa;
+	float cfact;
 	int x, y, w, h;
 	int oldx, oldy, oldw, oldh;
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh, hintsvalid;
@@ -262,6 +263,8 @@ static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setlfact(const Arg *arg);
+static void setcfact(const Arg *arg);
+static void setfact(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
@@ -1239,6 +1242,7 @@ manage(Window w, XWindowAttributes *wa)
 	c->w = c->oldw = wa->width;
 	c->h = c->oldh = wa->height;
 	c->oldbw = wa->border_width;
+	c->cfact = 1.0;
 
 	updatetitle(c);
 	if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
@@ -1836,6 +1840,39 @@ setlfact(const Arg *arg)
 		return;
 	selmon->lfact = f;
 	arrange(selmon);
+}
+
+/* arg.f == 0.0 resets the selected client to its default width share */
+void
+setcfact(const Arg *arg)
+{
+	float f;
+	Client *c;
+
+	c = selmon->sel;
+
+	if (!arg || !c || !selmon->lt[selmon->sellt]->arrange)
+		return;
+	if (arg->f == 0.0)
+		f = 1.0;
+	else {
+		f = arg->f + c->cfact;
+		if (f < 0.25 || f > 4.0)
+			return;
+	}
+	c->cfact = f;
+	arrange(selmon);
+}
+
+/* resize along the layout's own axis: per client where there is no master
+ * area to split, otherwise the master/stack split */
+void
+setfact(const Arg *arg)
+{
+	if (selmon->lt[selmon->sellt]->arrange == columns)
+		setcfact(arg);
+	else
+		setmfact(arg);
 }
 
 void
