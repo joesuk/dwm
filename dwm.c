@@ -117,6 +117,7 @@ typedef struct {
 
 typedef struct Monitor Monitor;
 typedef struct Client Client;
+typedef struct Pertag Pertag;
 struct Client {
 	char name[256];
 	float mina, maxa;
@@ -171,6 +172,7 @@ struct Monitor {
 	Monitor *next;
 	Window barwin;
 	const Layout *lt[2];
+	Pertag *pertag;
 };
 
 typedef struct {
@@ -359,6 +361,61 @@ static xcb_connection_t *xcon;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
+
+/* pertag: per-tag layout, master count, mfact and lfact. Index 0 is the
+ * "all tags" view (Mod+0); index i is tag i-1. The bar stays global. */
+struct Pertag {
+	unsigned int curtag, prevtag;
+	int nmasters[LENGTH(tags) + 1];
+	float mfacts[LENGTH(tags) + 1];
+	float lfacts[LENGTH(tags) + 1];
+	unsigned int sellts[LENGTH(tags) + 1];
+	const Layout *ltidxs[LENGTH(tags) + 1][2];
+};
+
+/* real (non-scratchpad) tag bits */
+#define REALTAGMASK		(TAGMASK & ~SPTAGMASK)
+
+static void pertagload(Monitor *m);
+static void pertagswitch(Monitor *m, unsigned int newtagset);
+
+/* copy the current tag's saved settings onto the monitor */
+void
+pertagload(Monitor *m)
+{
+	unsigned int t = m->pertag->curtag;
+
+	m->nmaster = m->pertag->nmasters[t];
+	m->mfact = m->pertag->mfacts[t];
+	m->lfact = m->pertag->lfacts[t];
+	m->sellt = m->pertag->sellts[t];
+	m->lt[m->sellt] = m->pertag->ltidxs[t][m->sellt];
+	m->lt[m->sellt ^ 1] = m->pertag->ltidxs[t][m->sellt ^ 1];
+}
+
+/* pick curtag for a new tagset, then load it. Scratchpad bits are ignored;
+ * if the current tag is still visible it stays current. */
+void
+pertagswitch(Monitor *m, unsigned int newtagset)
+{
+	unsigned int real = newtagset & REALTAGMASK;
+	unsigned int cur = m->pertag->curtag;
+	int i;
+
+	if (!real)
+		return;
+	if (real == REALTAGMASK) {
+		if (cur != 0) {
+			m->pertag->prevtag = cur;
+			m->pertag->curtag = 0;
+		}
+	} else if (cur == 0 || !(real & 1 << (cur - 1))) {
+		m->pertag->prevtag = cur;
+		for (i = 0; !(real & 1 << i); i++) ;
+		m->pertag->curtag = i + 1;
+	}
+	pertagload(m);
+}
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
@@ -685,6 +742,7 @@ cleanupmon(Monitor *mon)
 	}
 	XUnmapWindow(dpy, mon->barwin);
 	XDestroyWindow(dpy, mon->barwin);
+	free(mon->pertag);
 	free(mon);
 }
 
@@ -823,6 +881,7 @@ Monitor *
 createmon(void)
 {
 	Monitor *m;
+	unsigned int i;
 
 	m = ecalloc(1, sizeof(Monitor));
 	m->tagset[0] = m->tagset[1] = 1;
@@ -838,6 +897,16 @@ createmon(void)
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
+	m->pertag = ecalloc(1, sizeof(Pertag));
+	m->pertag->curtag = m->pertag->prevtag = 1;
+	for (i = 0; i <= LENGTH(tags); i++) {
+		m->pertag->nmasters[i] = m->nmaster;
+		m->pertag->mfacts[i] = m->mfact;
+		m->pertag->lfacts[i] = m->lfact;
+		m->pertag->ltidxs[i][0] = m->lt[0];
+		m->pertag->ltidxs[i][1] = m->lt[1];
+		m->pertag->sellts[i] = m->sellt;
+	}
 	return m;
 }
 
@@ -1178,7 +1247,7 @@ grabkeys(void)
 void
 incnmaster(const Arg *arg)
 {
-	selmon->nmaster = MAX(selmon->nmaster + arg->i, 0);
+	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
 	arrange(selmon);
 }
 
@@ -1802,9 +1871,9 @@ void
 setlayout(const Arg *arg)
 {
 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
-		selmon->sellt ^= 1;
+		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag] ^= 1;
 	if (arg && arg->v)
-		selmon->lt[selmon->sellt] = (Layout *)arg->v;
+		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = (Layout *)arg->v;
 	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
 	if (selmon->sel)
 		arrange(selmon);
@@ -1823,7 +1892,7 @@ setmfact(const Arg *arg)
 	f = arg->f < 1.0 ? arg->f + selmon->mfact : arg->f - 1.0;
 	if (f < 0.05 || f > 0.95)
 		return;
-	selmon->mfact = f;
+	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag] = f;
 	arrange(selmon);
 }
 
@@ -1838,7 +1907,7 @@ setlfact(const Arg *arg)
 	f = arg->f < 1.0 ? arg->f + selmon->lfact : arg->f - 1.0;
 	if (f < 0.05 || f > 0.95)
 		return;
-	selmon->lfact = f;
+	selmon->lfact = selmon->pertag->lfacts[selmon->pertag->curtag] = f;
 	arrange(selmon);
 }
 
@@ -2151,6 +2220,7 @@ toggleview(const Arg *arg)
 
 	if (newtagset) {
 		selmon->tagset[selmon->seltags] = newtagset;
+		pertagswitch(selmon, newtagset);
 		focus(NULL);
 		arrange(selmon);
 	}
@@ -2465,11 +2535,21 @@ updatewmhints(Client *c)
 void
 view(const Arg *arg)
 {
+	unsigned int tmptag;
+
 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
 		return;
 	selmon->seltags ^= 1; /* toggle sel tagset */
-	if (arg->ui & TAGMASK)
+	if (arg->ui & TAGMASK) {
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
+		pertagswitch(selmon, selmon->tagset[selmon->seltags]);
+	} else {
+		/* Mod+Tab: back to the previous tagset and its saved state */
+		tmptag = selmon->pertag->prevtag;
+		selmon->pertag->prevtag = selmon->pertag->curtag;
+		selmon->pertag->curtag = tmptag;
+		pertagload(selmon);
+	}
 	focus(NULL);
 	arrange(selmon);
 }
