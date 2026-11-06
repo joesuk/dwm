@@ -409,7 +409,7 @@ deck(Monitor *m)
 	if (m->nmaster && n > m->nmaster) {
 		sw = (mw - iv) * (1 - m->mfact);
 		mw = (mw - iv) * m->mfact;
-		sx = mx + mw + iv;
+		mx = sx + sw + iv; /* master on the right, deck of slaves on the left */
 		sh = m->wh - 2*oh;
 	}
 
